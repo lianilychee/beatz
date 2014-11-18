@@ -11,7 +11,7 @@ ret,thresh = cv.threshold(imgray,127,255,0) # idk what this is...
 contours, hierarchy = cv.findContours(thresh,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE) # countour approximation
 
 # draw the contours
-cv.drawContours(im, contours, -1, (0,255,0), 3)
+cv.drawContours(blank, contours, -1, (0,255,0), 3)
 
 # show the processed image
 cv.imshow('imgray', im)
