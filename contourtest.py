@@ -10,12 +10,6 @@ contours, hierarchy = cv.findContours(thresh,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE
 # draw the contours
 cv.drawContours(im, contours, -1, (0,255,0), 3)
 
-# mask the image
-for h, cnt in enumerate(contours):
-	mask = np.zeros(imgray.shape,np.uint8)
-	cv.drawContours(mask,[cnt],0,255,-1)
-	mean = cv.mean(im, mask = mask)
-
 # show the processed image
 cv.imshow('imgray', im)
 k = cv.waitKey()
