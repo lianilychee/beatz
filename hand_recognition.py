@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+
 cap = cv2.VideoCapture(0)
 
 while( cap.isOpened() ) :
@@ -49,6 +50,7 @@ while( cap.isOpened() ) :
                     cv2.circle(img,far,5,[0,0,255],-1)
                print(i)
                i=0
+
     cv2.imshow('output',drawing)
     cv2.imshow('input',img)
                 
