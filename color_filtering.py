@@ -12,7 +12,7 @@ while(1):
 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
 	# Define filter thresholds
-	lower_red = np.array([159,50,50])
+	lower_red = np.array([159,40,40])
 	# lower_red = np.array([0,94,66])
 	upper_red = np.array([179,255,255])
 	# upper_red = np.array([0,100,100])
@@ -25,7 +25,7 @@ while(1):
 
 	res = cv2.bitwise_and(frame,frame, mask=mask)
 
-	cv2.imshow('frame',frame)
+	# cv2.imshow('frame',frame)
 	# cv2.imshow('mask',mask)
 	cv2.imshow('res',res)
 	k = cv2.waitKey(5) & 0xFF
