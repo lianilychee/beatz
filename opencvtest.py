@@ -12,8 +12,8 @@ while(1):
 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
 	# Define filter thresholds
-	# lower_red = np.array([159,50,50])
-	lower_red = np.array([0,94,66])
+	lower_red = np.array([159,50,50])
+	# lower_red = np.array([0,94,66])
 	upper_red = np.array([179,255,255])
 	# upper_red = np.array([0,100,100])
 

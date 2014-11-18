@@ -14,6 +14,5 @@ contours, hierarchy = cv.findContours(thresh,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE
 cv.drawContours(blank, contours, -1, (0,255,0), 3)
 
 # show the processed image
-cv.imshow('imgray', im)
 cv.imshow('blank', blank)
 k = cv.waitKey()
