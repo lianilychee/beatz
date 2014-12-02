@@ -5,7 +5,7 @@ cap = cv2.VideoCapture(0)
 
 while(1):
 
-	# Take each frame
+	# Video capture
 	_, frame = cap.read()
 
 	# Convert BGR to HSV
@@ -13,12 +13,7 @@ while(1):
 
 	# Define filter thresholds
 	lower_red = np.array([159,40,40])
-	# lower_red = np.array([0,94,66])
 	upper_red = np.array([179,255,255])
-	# upper_red = np.array([0,100,100])
-
-	# lower_blue = np.array([110,50,50])
-	# upper_blue = np.array([130,255,255])
 
 	# mask = cv2.inRange(hsv, lower_blue, upper_blue)
 	mask = cv2.inRange(hsv, lower_red, upper_red)
