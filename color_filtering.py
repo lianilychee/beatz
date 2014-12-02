@@ -25,7 +25,7 @@ while(1):
 
 	res = cv2.bitwise_and(frame,frame, mask=mask)
 
-	# cv2.imshow('frame',frame)
+	cv2.imshow('frame',frame)
 	# cv2.imshow('mask',mask)
 	cv2.imshow('res',res)
 	k = cv2.waitKey(5) & 0xFF
