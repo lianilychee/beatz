@@ -1,7 +1,10 @@
-### Beatz MODEL
-""" 
-Define classes and inheritance for instruments.
+### Beatz instrument script
+
 """
+Display the instruments on the webcam view screen. 
+"""
+
+img = cv2.circle(img,(447,63), 63, (0,0,255), -1)
 
 class Instrument(object):
     """
