@@ -1,3 +1,8 @@
+''' This snippet of code tests the feasibility of iterating through the image matrix to determine where the hand is.
+
+	This implies that we are using color recognition to determine hand location.  Lindsey is testing mean shift on old contoured images.
+'''
+
 from PIL import Image
 
 im = Image.open("../images/piglet_color.jpg")
