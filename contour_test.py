@@ -3,7 +3,7 @@ import cv2 as cv
 
 # cap = cv.VideoCapture(0)
 
-im = cv.imread('images/star_bw.jpg') # source image
+im = cv.imread('images/liani2.jpg') # source image
 height, width = im.shape[:2]
 
 blank = np.zeros((height, width, 3),np.uint8)
@@ -17,19 +17,20 @@ cnt = contours[0]
 m = cv.moments(cnt)
 # print m
 
-cx = int(m['m10']/m['m00'])
-cy = int(m['m01']/m['m00'])
+# CALCULATING CENTROID
+# cx = int(m['m10']/m['m00'])
+# cy = int(m['m01']/m['m00'])
 
-print cx
-print cy
+# print cx
+# print cy
 
 # print int(m['m10'])
 # print int(m['m00'])
 # print int(m['m01'])
 
-# draw the contours
-cv.drawContours(blank, contours, -1, (0,255,0), 3)
+# DRAW THE CONTOURS
+cv.drawContours(blank, contours, -1, (255,255,255), 3)
 
-# show the processed image
+# SHOW PROCESSED IMAGE
 cv.imshow('blank', blank)
 k = cv.waitKey()
