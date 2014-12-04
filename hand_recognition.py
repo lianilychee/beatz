@@ -1,3 +1,6 @@
+''' Tries to track hand with discrete points.
+'''
+
 import cv2
 import numpy as np
 
