@@ -71,7 +71,10 @@ def get_difference():
 
 	diff = cv.absdiff(baseArray, testArray)
 
-	return diff
+	[height,width,depth] = diff.shape
+
+	return [height,width]
+
 
 if __name__ == '__main__':
 	# get_base_case()
