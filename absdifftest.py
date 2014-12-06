@@ -14,7 +14,7 @@ def get_image():
 
 
 def get_base_case():
-	''' Retrieve base case image for subsequent video capture frames to compare against. '''
+	''' Retrieve base case image for subsequent video frames to compare against. '''
 
 	camera = cv.VideoCapture(0)
 
@@ -27,7 +27,7 @@ def get_base_case():
 	# camera_capture = get_image()
 	camera_capture = cv.cvtColor(get_image(), cv.COLOR_BGR2GRAY)
 
-	cv.imwrite("/home/liani/Documents/beatz/baseCase.jpg", camera_capture)
+	cv.imwrite("/home/liani/Documents/beatz/testCase.jpg", camera_capture)
 	del(camera) # close the camera port.
 
 
@@ -56,10 +56,24 @@ def stream_video():
 
 		count = count + 1
 
-
 	cap.release()
 	cv.destroyAllWindows()
 
 
-get_base_case()
-# stream_video()
+def get_difference():
+	''' Gets the difference between baseCase.jpg and testCase.jpg. '''
+
+	base = cv.imread('baseCase.jpg')
+	test = cv.imread('testCase.jpg')
+
+	baseArray = np.asarray(base)
+	testArray = np.asarray(test)
+
+	diff = cv.absdiff(baseArray, testArray)
+
+	return diff
+
+if __name__ == '__main__':
+	# get_base_case()
+	# stream_video()
+	print get_difference()
