@@ -34,49 +34,47 @@ def get_base_case():
 def stream_video():
 	''' Print matrix of each video frame. '''
 
-	# cap = cv.VideoCapture('motionTrackingTutorial/bouncingBall.avi')
 	cap = cv.VideoCapture(0)
 
-	count = 0
-	a = []
+	### GRAB VERY FIRST FRAME
+	ret, frame = camera.read()
+	prev = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
 	while(camera.isOpened()):
 		ret, frame = camera.read()
 
 		gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
-		# a.append = np.asarray(gray)
-		a = np.asarray(gray)
-		time.sleep(1)
-		print a[count]
+		get_difference(prev, gray, 0, 210)
 
 		cv.imshow('frame', gray)
 		if cv.waitKey(1) & 0xFF == ord('q'):
 			break
 
-		count = count + 1
+		# # Overwrites previous frame
+		# prev = gray
 
 	cap.release()
 	cv.destroyAllWindows()
 
 
-def get_difference():
+def get_difference(prev, current, lowerX, upperX):
 	''' Gets the difference between baseCase.jpg and testCase.jpg. '''
 
-	base = cv.imread('baseCase.jpg')
-	test = cv.imread('testCase.jpg')
+	diff = cv.absdiff(prev, current)
 
-	baseArray = np.asarray(base)
-	testArray = np.asarray(test)
+	trueCount = len( np.where(diff[lowerX:upperX, 0:480]>20)[0] )
+	print trueCount
+	# 	print len(np.where(diff > 50)[0])
 
-	diff = cv.absdiff(baseArray, testArray)
+	# [height,width,depth] = diff.shape
 
-	[height,width,depth] = diff.shape
+	# return [height,width]
 
-	return [height,width]
+	return diff
 
 
 if __name__ == '__main__':
 	# get_base_case()
-	# stream_video()
-	print get_difference()
+	stream_video()
+	# print get_difference()
