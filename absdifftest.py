@@ -2,51 +2,50 @@ import cv2 as cv
 import numpy as np
 import time
 
-camera_port = 0
-ramp_frames = 30
-camera = cv.VideoCapture(camera_port)
+
+# Initialize the camera.
+camera = cv.VideoCapture(0)
+
 
 def get_image():
+	''' Retrieve single frame from camera. '''
 	retval, im = camera.read()
 	return im
 
+
+# def get_base_case():
+''' Retrieve base case image for subsequent video capture frames to compare against. '''
+
+ramp_frames = 10  # Capture multiple temporary images to allow camera to adjust to environment.
+
 for i in xrange(ramp_frames):
 	temp = get_image()
-print "Taking image..."
+print "Capturing base case image."
 
-camera_capture = get_image()
-file = "/home/liani/Documents/beatz/testimage.jpg"
-cv.imwrite(file, camera_capture)
-del(camera)
+# camera_capture = get_image()
+camera_capture = cv.cvtColor(get_image(), cv.COLOR_BGR2GRAY)
+
+cv.imwrite("/home/liani/Documents/beatz/baseCase.jpg", camera_capture)
+del(camera) # close the camera port.
 
 
+# get_base_case()
 
-# # CAPTURING THE BASE CASE
-# cv.NamedWindow("camera",1)
-# capture = cv.CaptureFromCAM(0)
-# while True:
-# 	img = cv.QueryFrame(capture)
-# 	cv.ShowImage("camera",img)
-# 	base = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-# 	cv.SaveImage("baseCase.jpg",base)
-# 	if cv.WaitKey(10) == 27:
-# 		break
-
-# img = cv.QueryFrame(capture)
-# img.imshow()
 
 # cap = cv.VideoCapture('motionTrackingTutorial/bouncingBall.avi')
-cap = cv.VideoCapture(capture)
+# cap = cv.VideoCapture(capture)
+# camera
 
 count = 0
 a = []
 
-while(cap.isOpened()):
-	ret, frame = cap.read()
+while(camera.isOpened()):
+	ret, frame = camera.read()
 
 	gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
-	a.append = np.asarray(gray)
+	# a.append = np.asarray(gray)
+	a = np.asarray(gray)
 	time.sleep(1)
 	print a[count]
 
