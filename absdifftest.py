@@ -16,29 +16,38 @@ def get_image():
 def get_base_case():
 	''' Retrieve base case image for subsequent video frames to compare against. '''
 
+	print 'Capturing base case image.'
+
 	camera = cv.VideoCapture(0)
 
 	ramp_frames = 10  # Capture multiple temporary images to allow camera to adjust to environment.
 
 	for i in xrange(ramp_frames):
 		temp = get_image()
-	print "Capturing base case image."
 
 	# camera_capture = get_image()
 	camera_capture = cv.cvtColor(get_image(), cv.COLOR_BGR2GRAY)
 
-	cv.imwrite("/home/liani/Documents/beatz/testCase.jpg", camera_capture)
+	cv.imwrite("/home/liani/Documents/beatz/baseCase.jpg", camera_capture)
 	del(camera) # close the camera port.
 
+	time.sleep(5)
 
-def stream_video():
+	print 'Base case CAPTURED.'
+
+	return camera_capture
+
+
+def stream_video(base_case):
 	''' Print matrix of each video frame. '''
 
-	cap = cv.VideoCapture(0)
+	prev = base_case
 
-	### GRAB VERY FIRST FRAME
-	ret, frame = camera.read()
-	prev = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+	# cap = cv.VideoCapture(0)
+
+	# ### GRAB VERY FIRST FRAME
+	# ret, frame = camera.read()
+	# prev = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
 	while(camera.isOpened()):
 		ret, frame = camera.read()
@@ -76,5 +85,5 @@ def get_difference(prev, current, lowerX, upperX):
 
 if __name__ == '__main__':
 	# get_base_case()
-	stream_video()
+	stream_video( get_base_case() )
 	# print get_difference()
