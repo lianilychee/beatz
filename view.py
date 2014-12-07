@@ -16,10 +16,6 @@ while(True):
     # # Our operations on the frame come here
     # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # line(which screen, (start coordinates), (end coordinates), (color), thickness)
-    # cv.line(frame, (208,0), (208,480), BLACK, 5)
-    # cv.line(frame, (431,0), (431,480), BLACK, 5)    
-
     # circle(which screen, (center coordinates), (radius), (color), )
     # cv.circle(frame, (100,200), 63, (128,114,250), -1)
     # cv.circle(frame, (530,200), 63, (250,128,114), -1)    
