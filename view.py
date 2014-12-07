@@ -31,7 +31,7 @@ while(True):
     cv.rectangle(frame, (467,380), (593,450), (127,255,0), -1) # Bass
 
 
-    font = cv2.FONT_HERSHEY_SIMPLEX
+    font = cv.FONT_HERSHEY_SIMPLEX
     # text(which screen, (position), font type, font scale, (color), thickness, lineType)
     cv.putText(frame, 'SNARE', (50,130), font, 1, BLACK, 2, 5)
     cv.putText(frame, 'HI HAT', (480,130), font, 1, BLACK, 2, 5)
