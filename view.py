@@ -25,8 +25,8 @@ while(True):
     # cv.circle(frame, (530,200), 63, (250,128,114), -1)    
 
     # rectangles(which screen, (top-left corner), (bottom-right corner), (color), size)
-    cv.rectangle(frame, (37,80), (163,150), (128,114,250), -1) # Snare
-    cv.rectangle(frame, (25,380), (180,450), (204,50,153), -1) # TomTom
+    cv.rectangle(frame, (37,80), (180,150), (128,114,250), -1) # Snare
+    cv.rectangle(frame, (37,380), (180,450), (204,50,153), -1) # TomTom
     cv.rectangle(frame, (467,80), (593,150), (250,128,114), -1) # Hi Hat
     cv.rectangle(frame, (467,380), (593,450), (127,255,0), -1) # Bass
 
