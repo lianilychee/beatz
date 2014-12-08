@@ -37,36 +37,27 @@ def get_base_case():
 	return camera_capture
 
 
-def get_difference(prev, current, lowerX, upperX, lowerY, upperY):
-	''' Gets the difference between baseCase.jpg each video frame. '''
-
-	diff = cv.absdiff(prev, current)
-
-	# diff[ ymin:ymax , xmin:xmax]
-	# trueCount = len( np.where(diff[0:480 , lowerX:upperX]>20)[0] )
-	trueCount = len( np.where(diff[lowerY:upperY , lowerX:upperX]>20)[0] )
-
-
-	return trueCount 
-
-
 def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
 	''' Within a bounded region, check if an object has appeared. '''
 
 	diff = cv.absdiff(prev, current)
 
 	# trueCount is the number of pixels within a region that have changed from the base case.
-	trueCount = len( np.where(diff[0:480, lowerX:upperX]>0)[0] )
+	# trueCount = len( np.where(diff[0:480, lowerX:upperX]>0)[0] )
+	# trueCount = len( np.where(diff[0:240][0:320]>100)[0] )
+	trueCount = len( np.where(diff[lowerY:upperY]>100)[0] )
 
 	# print trueCount
 
 	# Calculate the area of region of interest (ROI)..
-	area = abs(lowerX-upperX) * abs(lowerY-upperY)
+	# area = abs(lowerX-upperX) * abs(lowerY-upperY)
+	area = 640*480
 
 	# Calculate the percentage of pixels chanegd within ROI.
 	percent = trueCount / area
 
 	return trueCount
+
 	# print percent
 
 	# if percent > 0:
@@ -79,6 +70,9 @@ def stream_video(base_case):
 	''' Print matrix of each video frame. '''
 
 	prev = base_case
+
+	print len(prev)
+
 
 	while(camera.isOpened()):
 		ret, frame = camera.read()
