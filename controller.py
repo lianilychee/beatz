@@ -128,6 +128,13 @@ if __name__ == '__main__':
 	# # Initialize sounds
 	# sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
 	sound = pyglet.resource.media('audio/snare.ogg', streaming=False)
+	while True:
+		try:
+			sound._data == None
+			break
+		except:
+			pass
+
 	sound.play()
 
 	# sounds[0].play()
