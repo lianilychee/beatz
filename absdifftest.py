@@ -4,12 +4,12 @@ import time
 
 
 # Initialize the camera.
-camera = cv.VideoCapture(0)
+cap = cv.VideoCapture(0)
 
 
 def get_image():
 	''' Retrieve single frame from camera. '''
-	retval, im = camera.read()
+	retval, im = cap.read()
 	return im
 
 
@@ -18,7 +18,7 @@ def get_base_case():
 
 	print 'Capturing base case image.'
 
-	camera = cv.VideoCapture(0)
+	cap = cv.VideoCapture(0)
 
 	ramp_frames = 10  # get multiple temporary images to allow camera to adjust to environment.
 
@@ -28,7 +28,7 @@ def get_base_case():
 	camera_capture = cv.cvtColor(get_image(), cv.COLOR_BGR2GRAY)
 
 	cv.imwrite("baseCase.jpg", camera_capture)
-	del(camera) # close camera port.
+	del(cap) # close camera port.
 
 	time.sleep(3) # delay to allow user to acclimate
 
@@ -49,8 +49,7 @@ def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
 
 	# Checking within a horizontal band.
 	trueCountHoriz = len( np.where(diff[lowerY:upperY]>100)[0] )
-	trueCountVert = len( np.where(diffT[lowerX:upperX]>100)[1] )
-	# count = np.where(diff[lowerY:upperY]>100)[0]
+	trueCountVert = len( np.where(diffT[lowerX:upperX]>100)[0] )
 
 	# print trueCount
 
@@ -79,8 +78,8 @@ def stream_video(base_case):
 	print len(prev)
 
 
-	while(camera.isOpened()):
-		ret, frame = camera.read()
+	while(cap.isOpened()):
+		ret, frame = cap.read()
 
 		gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
@@ -98,10 +97,10 @@ def stream_video(base_case):
 
 		cv.imshow('frame', gray)
 		if cv.waitKey(1) & 0xFF == ord('q'):
-			camera.release()
+			cap.release()
 			cv.destroyAllWindows()
 
 
-if __name__ == '__main__':
-	base_case = get_base_case()
-	stream_video( base_case )
+# if __name__ == '__main__':
+# 	base_case = get_base_case()
+# 	stream_video( base_case )

@@ -2,6 +2,7 @@
 
 import numpy as np
 import cv2 as cv
+# import absdifftest
 
 BLACK = (0, 0, 0)
 
