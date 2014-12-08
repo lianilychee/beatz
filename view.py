@@ -6,7 +6,6 @@ import cv2
 BLACK = (0, 0, 0)
 
 cap = cv2.VideoCapture(0)
-img = cv2.imread('snare.png')
 
 
 while(True):
