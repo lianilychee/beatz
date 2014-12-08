@@ -2,6 +2,8 @@ import cv2
 import cv
 import numpy as np
 import time
+import pyglet
+import pygame
 
 
 def get_image():
@@ -45,19 +47,35 @@ def check_presence(prev, current, area, inst, lowerX, upperX, lowerY, upperY):
 
 	percent = trueCount / float(area)
 
-	print percent
-
 	if percent > 0.50:
-		print inst
+		return (inst, True)
 
 
 def stream_video(base_case):
 	''' Print matrix of each video frame. '''
 
+	instruments = [
+		"snare",
+		"hat",
+		"tom",
+		"bass"
+	]
+
+	# Initialize sounds
+	sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
+
+	playing = [False] * len(sounds)
+	positions = [
+		(37,180, 80,150),
+		(37,180, 380,450),
+		(467,610, 80,150),
+		(467,610, 380,450)
+	]
+
+
 	prev = base_case
 
-	print len(prev)
-
+	# print len(prev)
 
 	while(cap.isOpened()):
 		ret, frame = cap.read()
@@ -66,28 +84,21 @@ def stream_video(base_case):
 
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		# Check presence of snare
-		check_presence(prev, gray, area, 'snare', 37,180, 80,150)
+		# Check presence of instruments, play sounds
+		for i, sound in enumerate(sounds):
+			if not playing[i] and check_presence(prev, gray, area, instruments[i], *positions[i]):
+				playing[i] = True
+				sound.play()
+				break
+			else:
+				playing[i] = False
 
-		# Check presence of tom
-		check_presence(prev, gray, area, 'tom', 37,180, 380,450)
-
-		# Check presence of hat
-		check_presence(prev, gray, area, 'hat', 467,610, 80,150)
-
-		# Check presence of bass
-		check_presence(prev, gray, area, 'bass', 467,610, 380,450)
-
-		### Draw the snare rectangle for testing
-
+	
 		cv2.rectangle(gray, (37,80), (180,150), (128,114,250), -1) # Snare
 		cv2.rectangle(gray, (37,380), (180,450), (204,50,153), -1) # Tom
 		cv2.rectangle(gray, (467,80), (610,150), (250,128,114), -1) # Hat
 		cv2.rectangle(gray, (467,380), (610,450), (127,255,0), -1) # Bass
 
-
-
-		# flipped = cv.Flip(gray, flipMode = 0)
 		
 		cv2.imshow('frame', gray)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -97,6 +108,30 @@ def stream_video(base_case):
 
 if __name__ == '__main__':
 	# Initialize the camera.
-	cap = cv2.VideoCapture(0)
-	base_case = get_base_case()
-	stream_video( base_case )
+
+	# pygame.init()
+	# pygame.mixer.music.load('audio/bass.ogg')
+	# pygame.mixer.music.play()
+	# print 'bass'
+	# time.sleep(1)
+	# pygame.mixer.music.load('audio/tom.ogg')
+	# pygame.mixer.music.play()
+	# print 'tom'
+
+	instruments = [
+		"snare",
+		"hat",
+		"tom",
+		"bass"
+	]
+
+	# # Initialize sounds
+	# sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
+	sound = pyglet.resource.media('audio/snare.ogg', streaming=False)
+	sound.play()
+
+	# sounds[0].play()
+
+	# cap = cv2.VideoCapture(0)
+	# base_case = get_base_case()
+	# stream_video( base_case )
