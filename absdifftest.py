@@ -22,7 +22,7 @@ def get_base_case():
 	for i in xrange(ramp_frames):
 		temp = get_image()
 
-	camera_capture = cv.cvtColor(get_image(), cv.COLOR_BGR2GRAY)
+	camera_capture = cv2.cvtColor(get_image(), cv2.COLOR_BGR2GRAY)
 
 	cv2.imwrite("baseCase.jpg", camera_capture)
 	del(cap) # close camera port.
@@ -34,34 +34,21 @@ def get_base_case():
 	return camera_capture
 
 
-def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
+def check_presence(prev, current, area, inst, lowerX, upperX, lowerY, upperY):
 	''' Within a bounded region, check if an object has appeared. '''
 
 	diff = cv2.absdiff(prev, current)
 	# diffT = zip(*diff)	
 
 	# trueCount is the number of pixels within a region that have changed from the base case.
-	trueCount = len( np.where(diff[lowerX:upperX, lowerY:upperY]>10)[0] )
-	# trueCountVert = len( np.where(diffT[lowerX:upperX]>100)[0] )
+	trueCount = len( np.where(diff[lowerY:upperY,lowerX:upperX] > 20)[0] )
 
-	# print trueCount
+	percent = trueCount / float(area)
 
-	# Calculate the area of region of interest (ROI)..
-	# area = abs(lowerX-upperX) * abs(lowerY-upperY)
-	area = 640*480
+	print percent
 
-	# Calculate the percentage of pixels chanegd within ROI.
-	# percent = trueCount / area
-
-	# return (trueCountVert, trueCountHoriz)
-	return trueCount
-
-	# print percent
-
-	# if percent > 0:
-	# 	print 'YES'
-	# else:
-	# 	print 'NOT YET'
+	if percent > 0.50:
+		print inst
 
 
 def stream_video(base_case):
@@ -75,20 +62,33 @@ def stream_video(base_case):
 	while(cap.isOpened()):
 		ret, frame = cap.read()
 
+		area = 143*70
+
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		# Draw the snare rectangle for testing
-		BLACK = (0, 0, 0)
-		font = cv2.FONT_HERSHEY_SIMPLEX
+		# Check presence of snare
+		check_presence(prev, gray, area, 'snare', 37,180, 80,150)
+
+		# Check presence of tom
+		check_presence(prev, gray, area, 'tom', 37,180, 380,450)
+
+		# Check presence of hat
+		check_presence(prev, gray, area, 'hat', 467,610, 80,150)
+
+		# Check presence of bass
+		check_presence(prev, gray, area, 'bass', 467,610, 380,450)
+
+		### Draw the snare rectangle for testing
+
 		cv2.rectangle(gray, (37,80), (180,150), (128,114,250), -1) # Snare
-		cv2.putText(gray, 'SNARE', (50,130), font, 1, BLACK, 2, 5)
+		cv2.rectangle(gray, (37,380), (180,450), (204,50,153), -1) # Tom
+		cv2.rectangle(gray, (467,80), (610,150), (250,128,114), -1) # Hat
+		cv2.rectangle(gray, (467,380), (610,450), (127,255,0), -1) # Bass
 
 
-		# Check presence of snare and hihat
-		print check_presence(prev, gray, 37,180, 80,150)
 
-		# print trueCount = get_difference(prev, gray, 37,180, 80,150 )
-
+		# flipped = cv.Flip(gray, flipMode = 0)
+		
 		cv2.imshow('frame', gray)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			cap.release()
