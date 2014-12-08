@@ -11,10 +11,10 @@ BLACK = (0, 0, 0)
 cap = cv2.VideoCapture(0)
 
 # Sounds
-# snare = pyglet.media.load('audio/snare.wav', streaming=False)
-# hat = pyglet.media.load('audio/hat.wav', streaming=False)
-# tom = pyglet.media.load('audio/tom.wav', streaming=False)
-# bass = pyglet.media.load('audio/bass.wav', streaming=False)
+snare = pyglet.media.load('audio/snare.wav', streaming=False)
+hat = pyglet.media.load('audio/hat.wav', streaming=False)
+tom = pyglet.media.load('audio/tom.wav', streaming=False)
+bass = pyglet.media.load('audio/bass.wav', streaming=False)
 
 
 def main():
