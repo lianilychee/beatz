@@ -3,7 +3,6 @@
 import numpy as np
 import cv2
 import absdifftest
-import pyaudio
 import wave
 
 BLACK = (0, 0, 0)
@@ -21,8 +20,8 @@ while(True):
     # rectangles(which screen, (top-left corner), (bottom-right corner), (color), size)
     cv2.rectangle(gray, (37,80), (180,150), (128,114,250), -1) # Snare
     cv2.rectangle(gray, (37,380), (180,450), (204,50,153), -1) # TomTom
-    cv2.rectangle(gray, (467,80), (593,150), (250,128,114), -1) # Hi Hat
-    cv2.rectangle(gray, (467,380), (593,450), (127,255,0), -1) # Bass
+    cv2.rectangle(gray, (467,80), (610,150), (250,128,114), -1) # Hi Hat
+    cv2.rectangle(gray, (467,380), (610,450), (127,255,0), -1) # Bass
 
 
     font = cv2.FONT_HERSHEY_SIMPLEX
