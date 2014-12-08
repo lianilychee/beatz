@@ -1,10 +1,7 @@
-import cv2 as cv
+import cv2 
+import cv
 import numpy as np
 import time
-
-
-# Initialize the camera.
-cap = cv.VideoCapture(0)
 
 
 def get_image():
@@ -18,7 +15,7 @@ def get_base_case():
 
 	print 'Capturing base case image.'
 
-	cap = cv.VideoCapture(0)
+	cap = cv2.VideoCapture(0)
 
 	ramp_frames = 10  # get multiple temporary images to allow camera to adjust to environment.
 
@@ -27,7 +24,7 @@ def get_base_case():
 
 	camera_capture = cv.cvtColor(get_image(), cv.COLOR_BGR2GRAY)
 
-	cv.imwrite("baseCase.jpg", camera_capture)
+	cv2.imwrite("baseCase.jpg", camera_capture)
 	del(cap) # close camera port.
 
 	time.sleep(3) # delay to allow user to acclimate
@@ -40,16 +37,12 @@ def get_base_case():
 def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
 	''' Within a bounded region, check if an object has appeared. '''
 
-	diff = cv.absdiff(prev, current)
-	diffT = zip(*diff)	
+	diff = cv2.absdiff(prev, current)
+	# diffT = zip(*diff)	
 
 	# trueCount is the number of pixels within a region that have changed from the base case.
-	# trueCount = len( np.where(diff[0:480, lowerX:upperX]>0)[0] )
-	# trueCount = len( np.where(diff[0:240][0:320]>100)[0] )
-
-	# Checking within a horizontal band.
-	trueCountHoriz = len( np.where(diff[lowerY:upperY]>100)[0] )
-	trueCountVert = len( np.where(diffT[lowerX:upperX]>100)[0] )
+	trueCount = len( np.where(diff[lowerX:upperX, lowerY:upperY]>10)[0] )
+	# trueCountVert = len( np.where(diffT[lowerX:upperX]>100)[0] )
 
 	# print trueCount
 
@@ -60,7 +53,8 @@ def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
 	# Calculate the percentage of pixels chanegd within ROI.
 	# percent = trueCount / area
 
-	return trueCountVert
+	# return (trueCountVert, trueCountHoriz)
+	return trueCount
 
 	# print percent
 
@@ -81,13 +75,13 @@ def stream_video(base_case):
 	while(cap.isOpened()):
 		ret, frame = cap.read()
 
-		gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 		# Draw the snare rectangle for testing
 		BLACK = (0, 0, 0)
-		font = cv.FONT_HERSHEY_SIMPLEX
-		cv.rectangle(gray, (37,80), (180,150), (128,114,250), -1) # Snare
-		cv.putText(gray, 'SNARE', (50,130), font, 1, BLACK, 2, 5)
+		font = cv2.FONT_HERSHEY_SIMPLEX
+		cv2.rectangle(gray, (37,80), (180,150), (128,114,250), -1) # Snare
+		cv2.putText(gray, 'SNARE', (50,130), font, 1, BLACK, 2, 5)
 
 
 		# Check presence of snare and hihat
@@ -95,12 +89,14 @@ def stream_video(base_case):
 
 		# print trueCount = get_difference(prev, gray, 37,180, 80,150 )
 
-		cv.imshow('frame', gray)
-		if cv.waitKey(1) & 0xFF == ord('q'):
+		cv2.imshow('frame', gray)
+		if cv2.waitKey(1) & 0xFF == ord('q'):
 			cap.release()
-			cv.destroyAllWindows()
+			cv2.destroyAllWindows()
 
 
-# if __name__ == '__main__':
-# 	base_case = get_base_case()
-# 	stream_video( base_case )
+if __name__ == '__main__':
+	# Initialize the camera.
+	cap = cv2.VideoCapture(0)
+	base_case = get_base_case()
+	stream_video( base_case )
