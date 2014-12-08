@@ -3,12 +3,18 @@
 import numpy as np
 import cv2
 import absdifftest
+import pyglet
 import wave
 
 BLACK = (0, 0, 0)
 
 cap = cv2.VideoCapture(0)
 
+# Sounds
+snare = pyglet.media.load('audio/snare.wav', streaming=False)
+hat = pyglet.media.load('audio/hat.wav', streaming=False)
+tom = pyglet.media.load('audio/tom.wav', streaming=False)
+bass = pyglet.media.load('audio/bass.wav', streaming=False)
 
 while(True):
     # Capture frame-by-frame
@@ -35,9 +41,11 @@ while(True):
     # Display the resulting frame
     cv2.imshow('Example', gray)
 
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+
