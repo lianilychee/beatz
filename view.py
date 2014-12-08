@@ -3,11 +3,12 @@
 import numpy as np
 import cv2
 import absdifftest
+import pyaudio
+import wave
 
 BLACK = (0, 0, 0)
 
 cap = cv2.VideoCapture(0)
-img = cv2.imread('snare.png')
 
 
 while(True):
@@ -26,11 +27,11 @@ while(True):
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     # text(which screen, (position), font type, font scale, (color), thickness, lineType)
+
     cv2.putText(gray, 'SNARE', (50,130), font, 1, BLACK, 2, 5)
     cv2.putText(gray, 'HI HAT', (480,130), font, 1, BLACK, 2, 5)
     cv2.putText(gray, 'TOM-TOM', (30,430), font, 1, BLACK, 2, 5)
     cv2.putText(gray, 'BASS', (490,430), font, 1, BLACK, 2, 5)
-
 
     # Display the resulting frame
     cv2.imshow('Example', gray)
