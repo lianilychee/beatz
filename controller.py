@@ -17,7 +17,7 @@ def get_base_case():
 
 	print 'Capturing base case image.'
 
-	cap = cv2.VideoCapture(0)
+	cap = cv2.VideoCapture(0) # initialize camera
 
 	ramp_frames = 10  # get multiple temporary images to allow camera to adjust to environment.
 
@@ -36,8 +36,10 @@ def get_base_case():
 	return camera_capture
 
 
-def check_presence(prev, current, area, inst, lowerX, upperX, lowerY, upperY):
+def check_presence(prev, current, inst, lowerX, upperX, lowerY, upperY):
 	''' Within a bounded region, check if an object has appeared. '''
+
+	area = abs(lowerX-upperX) * abs(lowerY-upperY)
 
 	diff = cv2.absdiff(prev, current)
 	# diffT = zip(*diff)	
@@ -48,23 +50,26 @@ def check_presence(prev, current, area, inst, lowerX, upperX, lowerY, upperY):
 	percent = trueCount / float(area)
 
 	if percent > 0.50:
-		return (inst, True)
+		return inst
 
+
+def play_audio(inst):
+	print 'hello'
 
 def stream_video(base_case):
 	''' Print matrix of each video frame. '''
 
 	instruments = [
-		"snare",
-		"hat",
-		"tom",
-		"bass"
+		'snare',
+		'hat',
+		'tom',
+		'bass'
 	]
 
 	# Initialize sounds
-	sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
+	# sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
 
-	playing = [False] * len(sounds)
+	# playing = [False] * len(sounds)
 	positions = [
 		(37,180, 80,150),
 		(37,180, 380,450),
@@ -72,26 +77,33 @@ def stream_video(base_case):
 		(467,610, 380,450)
 	]
 
-
 	prev = base_case
-
-	# print len(prev)
 
 	while(cap.isOpened()):
 		ret, frame = cap.read()
-
-		area = 143*70
+		frame = cv2.flip(frame, 1) # mirrored display
 
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		# Check presence of instruments, play sounds
-		for i, sound in enumerate(sounds):
-			if not playing[i] and check_presence(prev, gray, area, instruments[i], *positions[i]):
-				playing[i] = True
-				sound.play()
-				break
-			else:
-				playing[i] = False
+		if check_presence(prev, gray, 'snare', 37,180, 80,150):
+			print 'snare'
+		if check_presence(prev, gray, 'tom', 37,180, 380,450):
+			print 'tom'
+		if check_presence(prev, gray, 'hat', 467,610, 80,150):
+			print 'hat'
+		if check_presence(prev, gray, 'bass', 467,610, 380,450):
+			print 'bass'
+		else:
+			print 'nope'
+
+		# # Check presence of instruments, play sounds
+		# for i, sound in enumerate(sounds):
+		# 	if not playing[i] and check_presence(prev, gray, area, instruments[i], *positions[i]):
+		# 		playing[i] = True
+		# 		print instruments[i]
+		# 		break
+		# 	else:
+		# 		print 'nope'
 
 	
 		cv2.rectangle(gray, (37,80), (180,150), (128,114,250), -1) # Snare
@@ -107,38 +119,31 @@ def stream_video(base_case):
 
 
 if __name__ == '__main__':
-	# Initialize the camera.
 
-	# pygame.init()
-	# pygame.mixer.music.load('audio/bass.ogg')
-	# pygame.mixer.music.play()
-	# print 'bass'
-	# time.sleep(1)
-	# pygame.mixer.music.load('audio/tom.ogg')
-	# pygame.mixer.music.play()
-	# print 'tom'
+	pygame.init()
+	pygame.mixer.music.load('audio/bass.ogg')
+	pygame.mixer.music.play()
+	print 'bass'
+	time.sleep(1)
+	pygame.mixer.music.load('audio/tom.ogg')
+	pygame.mixer.music.play()
+	print 'tom'
 
-	instruments = [
-		"snare",
-		"hat",
-		"tom",
-		"bass"
-	]
+		# # pyglet shit
+		# # Initialize sounds
+		# sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
+		# sound = pyglet.resource.media('audio/snare.ogg', streaming=False)
+		# while True:
+		# 	try:
+		# 		sound._data == None
+		# 		break
+		# 	except:
+		# 		pass
 
-	# # Initialize sounds
-	# sounds = [pyglet.resource.media('audio/' + instr + '.ogg', streaming=False) for instr in instruments]
-	sound = pyglet.resource.media('audio/snare.ogg', streaming=False)
-	while True:
-		try:
-			sound._data == None
-			break
-		except:
-			pass
+		# sound.play()
 
-	sound.play()
+		# sounds[0].play()
 
-	# sounds[0].play()
-
-	# cap = cv2.VideoCapture(0)
-	# base_case = get_base_case()
-	# stream_video( base_case )
+	cap = cv2.VideoCapture(0)
+	base_case = get_base_case()
+	stream_video( base_case )
