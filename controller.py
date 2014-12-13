@@ -49,7 +49,7 @@ def check_presence(prev, current, inst, lowerX, upperX, lowerY, upperY):
 
 	percent = trueCount / float(area)
 
-	if percent > 0.50:
+	if percent > 0.90:
 		return inst
 
 
@@ -96,6 +96,12 @@ def stream_video(base_case):
 		else:
 			print 'nope'
 
+
+		cv2.putText(frame, 'SNARE', (50,130), font, 1, BLACK, 2, 5)
+		cv2.putText(frame, 'HI HAT', (480,130), font, 1, BLACK, 2, 5)
+		cv2.putText(frame, 'TOM-TOM', (30,430), font, 1, BLACK, 2, 5)
+		cv2.putText(frame, 'BASS', (490,430), font, 1, BLACK, 2, 5)
+
 		# # Check presence of instruments, play sounds
 		# for i, sound in enumerate(sounds):
 		# 	if not playing[i] and check_presence(prev, gray, area, instruments[i], *positions[i]):
@@ -120,14 +126,43 @@ def stream_video(base_case):
 
 if __name__ == '__main__':
 
-	pygame.init()
-	pygame.mixer.music.load('audio/bass.ogg')
-	pygame.mixer.music.play()
-	print 'bass'
-	time.sleep(1)
-	pygame.mixer.music.load('audio/tom.ogg')
-	pygame.mixer.music.play()
-	print 'tom'
+	pygame.mixer.init(frequency=22050, size=-16, channels=4)
+
+	tom_audio = pygame.mixer.Sound('audio/tom.ogg')
+	snare_audio = pygame.mixer.Sound('audio/snare.ogg')
+	bass_audio = pygame.mixer.Sound('audio/bass.ogg')
+	hat_audio = pygame.mixer.Sound('audio/hat.ogg')
+
+	# tom_audio.play()
+	# snare_audio.play()
+	# bass_audio.play()
+	# hat_audio.play()
+
+	# car_audio = pygame.mixer.Sound('audio/car.ogg')
+	# rain_audio = pygame.mixer.Sound('audio/rain.ogg')
+
+	# car_audio.play()
+	# rain_audio.play()
+
+	# tom_chan = pygame.mixer.find_channel()
+	# tom_chan.queue(tom_audio)
+
+	# snare_chan = pygame.mixer.find_channel()
+	# snare_chan.queue(snare_audio)
+
+	# bass_chan = pygame.mixer.find_channel()
+	# bass_chan.queue(bass_audio)
+
+	# hat_chan = pygame.mixer.find_channel()
+	# hat_chan.queue(hat_audio)
+
+	# time.sleep(5)
+	# pygame.mixer.music.play()
+	# print 'bass'
+	# time.sleep(1)
+	# pygame.mixer.music.load('audio/tom.ogg')
+	# pygame.mixer.music.play()
+	# print 'tom'
 
 		# # pyglet shit
 		# # Initialize sounds
