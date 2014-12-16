@@ -66,11 +66,12 @@ def stream_video(base, cap):
     sounds = [pygame.mixer.Sound('audio/' + instr + '.ogg') for instr in instruments]
 
     playing = [False] * len(sounds)
-    positions = [
-        (37,180, 80,150),
-        (37,180, 380,450),
-        (467,610, 80,150),
-        (467,610, 380,450)
+
+    positions = [ # xbounds, ybounds
+        (37,180, 80,150), # snare
+        (37,180, 380,450), # hi hat
+        (467,610, 80,150), # tom tom
+        (467,610, 380,450) # bass
     ]
 
     colors = [
@@ -85,10 +86,10 @@ def stream_video(base, cap):
         frame = cv2.flip(frame, 1) # mirrored display
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.putText(frame, 'SNARE', (50,130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
-        cv2.putText(frame, 'TOM-TOM', (480,130), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
-        cv2.putText(frame, 'HI HAT', (30,430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
-        cv2.putText(frame, 'BASS', (490,430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'SNARE', (37,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'HI HAT', (37,450), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'TOM-TOM', (467,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'BASS', (467,450), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
 
         # Check presence of instruments, play sounds
         for i, sound in enumerate(sounds):
