@@ -69,10 +69,12 @@ def stream_video(base, cap):
 
     positions = [ # xbounds, ybounds
         (37,180, 80,150), # snare
-        (37,180, 380,450), # hi hat
-        (467,610, 80,150), # tom tom
+        (37,180, 380,450), # hat
+        (467,610, 80,150), # tom
         (467,610, 380,450) # bass
     ]
+
+    print positions[0][1]
 
     colors = [
         (128,114,250),
@@ -86,10 +88,10 @@ def stream_video(base, cap):
         frame = cv2.flip(frame, 1) # mirrored display
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        cv2.putText(frame, 'SNARE', (37,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
-        cv2.putText(frame, 'HI HAT', (37,450), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
-        cv2.putText(frame, 'TOM-TOM', (467,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
-        cv2.putText(frame, 'BASS', (467,450), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'SNARE', (positions[0][0],positions[0][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'HI HAT', (positions[1][0],positions[1][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'TOM-TOM', (positions[2][0],positions[2][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
+        cv2.putText(frame, 'BASS', (positions[3][0],positions[3][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
 
         # Check presence of instruments, play sounds
         for i, sound in enumerate(sounds):
