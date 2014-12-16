@@ -68,10 +68,10 @@ def stream_video(base, cap):
     playing = [False] * len(sounds)
 
     positions = [ # xbounds, ybounds
-        (37,180, 80,150), # snare
-        (37,180, 380,450), # hat
-        (467,610, 80,150), # tom
-        (467,610, 380,450) # bass
+        (37,180, 50,120), # snare
+        (37,180, 350,420), # hat
+        (467,610, 50,120), # tom
+        (467,610, 350,420) # bass
     ]
 
     print positions[0][1]
