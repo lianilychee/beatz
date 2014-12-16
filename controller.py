@@ -4,10 +4,11 @@ import numpy as np
 import time
 import pygame
 
-# def get_image():
-#     ''' Retrieve single frame from camera. '''
-#     retval, im = cap.read()
-#     return im
+def get_image():
+    ''' Retrieve single frame from camera. '''
+    retval, im = cap.read()
+    return im
+
 
 
 def get_base_case(cap):
@@ -15,15 +16,12 @@ def get_base_case(cap):
 
     print 'Capturing base case image.'
 
-    retval, im = cap.read()
-
     ramp_frames = 10  # get multiple temporary images to allow camera to adjust to environment.
 
     for i in xrange(ramp_frames):
-        temp = im
+        temp = get_image()
 
-    # camera_capture = cv2.cvtColor(get_image(), cv2.COLOR_BGR2GRAY)
-    camera_capture = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    camera_capture = cv2.cvtColor(get_image(), cv2.COLOR_BGR2GRAY)
 
     cv2.imwrite("baseCase.jpg", camera_capture)
 
@@ -32,6 +30,7 @@ def get_base_case(cap):
     print 'Base case CAPTURED.'
 
     return camera_capture
+
 
 
 def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
@@ -49,6 +48,8 @@ def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
 
     if percent > 0.50:
         return True
+
+
 
 def stream_video(base, cap):
     ''' Print matrix of each video frame. '''
@@ -89,7 +90,7 @@ def stream_video(base, cap):
         cv2.putText(frame, 'HI HAT', (30,430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
         cv2.putText(frame, 'BASS', (490,430), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
 
-        # # Check presence of instruments, play sounds
+        # Check presence of instruments, play sounds
         for i, sound in enumerate(sounds):
             if check_presence(base, gray, *positions[i]):
                 if not playing[i]:
@@ -99,11 +100,11 @@ def stream_video(base, cap):
             else:
                 playing[i] = False
 
-        
         cv2.imshow('frame', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cap.release()
             cv2.destroyAllWindows()
+
 
 
 if __name__ == '__main__':
