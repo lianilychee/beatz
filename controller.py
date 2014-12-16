@@ -4,10 +4,10 @@ import numpy as np
 import time
 import pygame
 
-def get_image():
-    ''' Retrieve single frame from camera. '''
-    retval, im = cap.read()
-    return im
+# def get_image():
+#     ''' Retrieve single frame from camera. '''
+#     retval, im = cap.read()
+#     return im
 
 
 def get_base_case(cap):
@@ -15,12 +15,15 @@ def get_base_case(cap):
 
     print 'Capturing base case image.'
 
+    retval, im = cap.read()
+
     ramp_frames = 10  # get multiple temporary images to allow camera to adjust to environment.
 
     for i in xrange(ramp_frames):
-        temp = get_image()
+        temp = im
 
-    camera_capture = cv2.cvtColor(get_image(), cv2.COLOR_BGR2GRAY)
+    # camera_capture = cv2.cvtColor(get_image(), cv2.COLOR_BGR2GRAY)
+    camera_capture = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
     cv2.imwrite("baseCase.jpg", camera_capture)
 
