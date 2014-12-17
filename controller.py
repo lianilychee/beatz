@@ -50,7 +50,11 @@ def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
         return True
 
 
+# def check_key_press():
 
+
+
+	
 def stream_video(base, cap):
     ''' Print matrix of each video frame. '''
 
