@@ -3,7 +3,7 @@ import cv
 import numpy as np
 import time
 import pygame
-import pydub
+from pydub import AudioSegment
 
 def get_image():
     ''' Retrieve single frame from camera. '''
@@ -74,16 +74,11 @@ def check_key_press():
 
 
 
-def play_audio():
-    for i, sound in enumerate(sounds):
-    if check_presence(base, gray, *positions[i]):
-        if not playing[i]:
-            playing[i] = True
-            cv2.rectangle(frame, (positions[i][0], positions[i][2]), (positions[i][1], positions[i][3]), colors[i], -1)
-            sounds[i].play()
-    else:
-        playing[i] = False
-
+def record_audio():
+	snare_sound = AudioSegment.from_wav('audio/snare.wav')
+	tom_sound = AudioSegment.from_wav('audio/tom.wav')
+	combined = snare_sound + tom_sound
+	# combined.export("CHECK.wav", format="wav")
 
 
 def stream_video(base, cap):
@@ -145,8 +140,12 @@ def stream_video(base, cap):
 
 if __name__ == '__main__':
     pygame.init()
+    pygame.mixer.init()
 
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
 
-    base_case = get_base_case(cap)
-    stream_video( base_case, cap)
+    # base_case = get_base_case(cap)
+    # stream_video( base_case, cap)
+
+    record_audio()
+    # combined.play()
