@@ -3,6 +3,7 @@ import cv
 import numpy as np
 import time
 import pygame
+import pydub
 
 def get_image():
     ''' Retrieve single frame from camera. '''
@@ -46,15 +47,45 @@ def check_presence(prev, current, lowerX, upperX, lowerY, upperY):
 
     percent = trueCount / float(area)
 
-    if percent > 0.50:
+    if percent > 0.30:
         return True
 
 
-# def check_key_press():
+def check_key_press():
+
+    state = 0
+
+    # Start record on space key
+    if cv2.waitKey(1) & 0xFF==ord(' '):
+        print 'SPACE KEY'
+        # state = 1
+        # return state
+
+    # Quit record when space is tapped again
+    if cv2.waitKey(1) & 0xFF==ord('b'):
+        print 'B KEY'
+        # state = 0
+        # return state
+
+    # Quit window on 'q' key
+    if cv2.waitKey(1) & 0xFF==ord('q'):
+        cap.release()
+        cv2.destroyAllWindows()
 
 
 
-	
+def play_audio():
+    for i, sound in enumerate(sounds):
+    if check_presence(base, gray, *positions[i]):
+        if not playing[i]:
+            playing[i] = True
+            cv2.rectangle(frame, (positions[i][0], positions[i][2]), (positions[i][1], positions[i][3]), colors[i], -1)
+            sounds[i].play()
+    else:
+        playing[i] = False
+
+
+
 def stream_video(base, cap):
     ''' Print matrix of each video frame. '''
 
@@ -78,8 +109,6 @@ def stream_video(base, cap):
         (467,610, 350,420) # bass
     ]
 
-    print positions[0][1]
-
     colors = [
         (128,114,250),
         (204,50,153),
@@ -97,7 +126,7 @@ def stream_video(base, cap):
         cv2.putText(frame, 'TOM-TOM', (positions[2][0],positions[2][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
         cv2.putText(frame, 'BASS', (positions[3][0],positions[3][3]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, 5)
 
-        # Check presence of instruments, play sounds
+        # Check presence of instruments, play audio
         for i, sound in enumerate(sounds):
             if check_presence(base, gray, *positions[i]):
                 if not playing[i]:
@@ -107,11 +136,11 @@ def stream_video(base, cap):
             else:
                 playing[i] = False
 
-        cv2.imshow('frame', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            cap.release()
-            cv2.destroyAllWindows()
+        # play_audio()
 
+        cv2.imshow('frame', frame)
+
+        check_key_press()
 
 
 if __name__ == '__main__':
